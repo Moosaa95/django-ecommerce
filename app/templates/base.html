@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Ecommerce Website{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    {% block extra_css %} {% endblock %}
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="/" class="text-white text-2xl font-bold">E-Shop</a>
+        <div>
+          <a href="/" class="text-white mx-4">Home</a>
+          <a href="/cart/" class="text-white mx-4">Cart</a>
+          {% if user.is_authenticated %}
+          <a href="/profile/" class="text-white mx-4">Profile</a>
+          <a href="/logout/" class="text-white mx-4">Logout</a>
+          {% else %}
+          <a href="/login/" class="text-white mx-4">Login</a>
+          <a href="/register/" class="text-white mx-4">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="container mx-auto my-8">
+      {% block content %} {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2025 E-Shop. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

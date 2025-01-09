@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block title %}Checkout - E-Shop{% endblock %} {%
+block content %}
+<h1 class="text-3xl font-semibold mb-6">Checkout</h1>
+
+<form method="POST" action="/place-order/">
+  {% csrf_token %}
+  <div class="mb-4">
+    <label for="address" class="block text-lg">Shipping Address</label>
+    <textarea
+      id="address"
+      name="address"
+      rows="4"
+      class="w-full p-4 border rounded-md"
+      required
+    ></textarea>
+  </div>
+  <div class="mb-4">
+    <label for="payment" class="block text-lg">Payment Method</label>
+    <select
+      id="payment"
+      name="payment_method"
+      class="w-full p-4 border rounded-md"
+      required
+    >
+      <option value="credit_card">Credit Card</option>
+      <option value="paypal">PayPal</option>
+    </select>
+  </div>
+  <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+    Place Order
+  </button>
+</form>
+{% endblock %}
