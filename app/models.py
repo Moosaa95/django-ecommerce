@@ -11,11 +11,11 @@ class category(models.Model):
   
 
 # product model.
-class product(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=255, unique=True)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
     category = models.ForeignKey(category, on_delete=models.CASCADE, default=1)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null='')
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
