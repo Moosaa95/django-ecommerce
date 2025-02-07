@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms 
-from . models import product
+from . models import Product
 
 class ProductForm(forms.ModelForm):
     class Meta:
-        model = product
+        model = Product
         fields = ['name', 'description', 'image']
 
 class SignUpForm(UserCreationForm):
@@ -28,9 +28,4 @@ class SignUpForm(UserCreationForm):
 		self.fields['password1'].widget.attrs['class'] = 'form-control'
 		self.fields['password1'].widget.attrs['placeholder'] = 'Password'
 		self.fields['password1'].label = ''
-		
-
-		self.fields['password2'].widget.attrs['class'] = 'form-control'
-		self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
-		self.fields['password2'].label = ''
 		

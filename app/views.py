@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect, get_object_or_404
 from django.contrib.auth import authenticate , login 
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import product
+from .models import Product
 from .forms import ProductForm
 from django.http import JsonResponse
 from django.http import HttpResponse
@@ -36,7 +36,7 @@ def update_product(request, product_id):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            a
+            
             updated_product = product.update_product(
                 product_id=product.id,
                 name=form.cleaned_data['name'],
@@ -64,7 +64,7 @@ def retrieve_product(request, product_id):
 
 def delete_product(request, product_id):
    
-    success = product.delete_product(product_id)  
+    success = Product.delete_product(product_id)  
     if success:
         return redirect('product_list') 
     else:
