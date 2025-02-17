@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
 
+
 # Create your models here.
 
 class Category(models.Model):
@@ -106,14 +107,21 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+class CartItem(models.Model):
+     product = models.ForeignKey(Product, on_delete=models.CASCADE) 
+     quantity = models.PositiveIntegerField(default=1)
+ 
+     def subtotal(self):
+        return self.product.price * self.quantity 
            
     
-    def create_product(cls, **kwargs):
+     def create_product(cls, **kwargs):
         product= cls.objects.create(**kwargs)
         return product
     
-    @classmethod
-    def update_product(cls, product_id, name=None, description=None, image=None):
+     @classmethod
+     def update_product(cls, product_id, name=None, description=None, image=None):
         
         try:
             product = cls.objects.get(id=product_id)  
@@ -129,14 +137,14 @@ class Product(models.Model):
             return None  
 
     
-    @classmethod
-    def list_products(cls):
+     @classmethod
+     def list_products(cls):
         
         return cls.objects.all()  
 
     
-    @classmethod
-    def retrieve_product(cls, product_id):
+     @classmethod
+     def retrieve_product(cls, product_id):
         
         try:
             product = cls.objects.get(id=product_id)  
@@ -145,8 +153,8 @@ class Product(models.Model):
             return None  
 
     
-    @classmethod
-    def delete_product(cls, product_id):
+     @classmethod
+     def delete_product(cls, product_id):
         
         try:
             product = cls.objects.get(id=product_id)  

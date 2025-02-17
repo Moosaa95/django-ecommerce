@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from .models import Product, CartItem
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -14,6 +15,16 @@ def home(request):
     }
     return render(request, "home.html", context)
 
+#view to add a new product
+def add_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST,request.Files)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            form = ProductForm()
+            return render(request, 'add_product.html', {'form': form})
 # View to create a new category
 def create_category(request):
     if request.method == 'POST':
@@ -77,7 +88,47 @@ def delete_category(request, category_id):
         return redirect('category_list')
     return JsonResponse({'error': 'Category not found'}, status=404)
 
+# Add to Cart
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    # Check if product is already in cart
+    cart_item, created = CartItem.objects.get_or_create(product=product)
+    
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    
+    return redirect('cart_view')
+
+# View Cart
+def cart_view(request):
+    cart_items = CartItem.objects.all()
+    total_price = sum(item.subtotal() for item in cart_items)
+    
+    return render(request, 'products/cart.html', {'cart_items': cart_items, 'total_price': total_price})
+
+# Remove from Cart
+def remove_from_cart(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    cart_item.delete()
+    return redirect('cart_view')
+
+# Update Cart Quantity
+def update_cart(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    
+    if request.method == "POST":
+        new_quantity = int(request.POST.get("quantity", 1))
+        cart_item.quantity = max(1, new_quantity)
+        cart_item.save()
+    
+    return redirect('cart_view')
+    
+
+
 # View to list all products
+
 def list_product(request):
     products = Product.list_products()
     return render(request, 'product_list.html', {'products': products})

@@ -13,8 +13,11 @@
             <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
             <p class="text-gray-600 mt-2">{{ product.description|truncatewords:10 }}</p>
           </a>
+          
         </div>
       {% endfor %}
+      <a href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+      <a href="{% url 'cart_view' %}">View Cart</a>
     </div>
 
     <!-- Create product Button -->
@@ -23,5 +26,6 @@
         Create New product
       </a>
     </div>
+    
   </div>
 {% endblock %}
